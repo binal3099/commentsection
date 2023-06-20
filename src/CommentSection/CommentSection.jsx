@@ -5,7 +5,9 @@ function CommentSection() {
     const [inputList, setinputList] = useState({
         fname: '',
         lname: '',
-        cname: ''
+        cname: '',
+        email: '',
+        phn: ''
     });
 
     const [viewData, setviewData] = useState([]);
@@ -28,15 +30,18 @@ function CommentSection() {
         setinputList({
             fname: '',
             lname: '',
-            cname: ''
+            cname: '',
+            email: '',
+            phn: ''
         });
 
     }
     return (
         <>
+        <div className='bg'>
             <div className='container'>
                 <h1>
-                    CommentSection
+                    Comment Section
                 </h1>
                 <form className="row g-3" onSubmit={hndleSubmit}>
                     <div className='col-md-6'>
@@ -46,6 +51,14 @@ function CommentSection() {
                     <div className='col-md-6'>
                         <label className="form-label">Last Name</label>
                         <input type="text" className="form-control" name='lname' value={inputList.lname} onChange={handlechange} />
+                    </div>
+                    <div className='col-md-6'>
+                        <label className="form-label">Email</label>
+                        <input type="text" className="form-control" name='email' value={inputList.email} onChange={handlechange} />
+                    </div>
+                    <div className='col-md-6'>
+                        <label className="form-label">Mobile No.</label>
+                        <input type="text" className="form-control" name='phn' value={inputList.phn} onChange={handlechange} />
                     </div>
                     <div className="comment">
                         <label className="form-label">Comments</label>
@@ -66,8 +79,6 @@ function CommentSection() {
                                 return (
                                     <>
                                         <div aria-live="polite" aria-atomic="true" className="d-flex justify-content-center align-items-center w-100">
-
-                                           
                                             <div className="toast" role="alert" aria-live="assertive" aria-atomic="true">
                                                 <div className="toast-header">
                                                         <strong className="me-auto">
@@ -79,6 +90,16 @@ function CommentSection() {
                                                 </div>
                                                 <div className="toast-body">
                                                     {
+                                                        d.email
+                                                    }
+                                                </div>
+                                                <div className="toast-body">
+                                                    {
+                                                        d.phn
+                                                    }
+                                                </div>
+                                                <div className="toast-body">
+                                                    {
                                                         d.cname
                                                     }
                                                 </div>
@@ -87,15 +108,12 @@ function CommentSection() {
                                     </>
                                 )
                             })
-                            : ""
+                        : ""
                     }
-
-
-
                 </div>
             </div>
+        </div>
         </>
-
     )
 }
 

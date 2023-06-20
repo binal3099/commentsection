@@ -1,3 +1,9 @@
+.bg{
+    background-image: url('../public/img3.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 .comment textarea{
     resize: none;
     /* height: 20%; */
@@ -7,7 +13,7 @@
 }
 .toast-header{
     background-color: rgb(16, 16, 72);
-    padding: 20px;
+    padding: 15px;
     font-size: 20px;
 }
 .me-auto{
@@ -17,5 +23,12 @@
     font-size: 20px;
     font-weight: 600;
     color: rgb(213, 84, 213);
-    background-color: rgb(240, 226, 240);
+    /* background-color: rgb(240, 226, 240); */
+}
+h1{
+    justify-content: center;
+    display: flex;
+    margin: 20px 0px;
+    background-color: rgb(23, 15, 75);
+    color: white;
 }
