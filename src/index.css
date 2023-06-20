@@ -1,0 +1,21 @@
+.comment textarea{
+    resize: none;
+    /* height: 20%; */
+}
+.toast{
+    display: block !important;
+}
+.toast-header{
+    background-color: rgb(16, 16, 72);
+    padding: 20px;
+    font-size: 20px;
+}
+.me-auto{
+    color: white;
+}
+.toast-body{
+    font-size: 20px;
+    font-weight: 600;
+    color: rgb(213, 84, 213);
+    background-color: rgb(240, 226, 240);
+}
