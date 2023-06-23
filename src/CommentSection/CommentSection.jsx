@@ -1,4 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+
+const getData = () =>{
+    let data1 = JSON.parse(localStorage.getItem("data"));
+
+    if(data1 != null){
+        return data1;
+    }
+    return [];
+//    console.log(data);
+}
 
 function CommentSection() {
 
@@ -10,7 +20,9 @@ function CommentSection() {
         phn: ''
     });
 
-    const [viewData, setviewData] = useState([]);
+    const [viewData, setviewData] = useState(getData());
+    // console.log("data",data);
+    
 
     const handlechange = (e) => {
         let name = e.target.name;
@@ -34,8 +46,13 @@ function CommentSection() {
             email: '',
             phn: ''
         });
-
     }
+
+    useEffect(()=>{
+        localStorage.setItem("data", JSON.stringify(viewData))
+        // console.log("data");
+    },[viewData]);
+
     return (
         <>
         <div className='bg'>
