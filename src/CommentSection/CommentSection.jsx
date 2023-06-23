@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from 'react'
 
-const getData = () =>{
-    let data1 = JSON.parse(localStorage.getItem("data"));
+// const getData = () =>{
+//     let data1 = JSON.parse(localStorage.getItem("data"));
 
-    if(data1 != null){
-        return data1;
+//     if(data1 != null){
+//         return data1;
+//     }
+//     return [];
+// //    console.log(data);
+// }
+
+const sessionData = () =>{
+    let data1 = (sessionStorage.getItem("data"));
+    // console.log("session get", data1);
+    if(data1 !=  null){
+        return JSON.parse(data1);
     }
-    return [];
-//    console.log(data);
+    return[];
 }
 
 function CommentSection() {
@@ -20,9 +29,9 @@ function CommentSection() {
         phn: ''
     });
 
-    const [viewData, setviewData] = useState(getData());
+    const [viewData, setviewData] = useState(sessionData());
     // console.log("data",data);
-    
+
 
     const handlechange = (e) => {
         let name = e.target.name;
@@ -48,10 +57,16 @@ function CommentSection() {
         });
     }
 
+    
     useEffect(()=>{
-        localStorage.setItem("data", JSON.stringify(viewData))
-        // console.log("data");
+        sessionStorage.setItem("data",JSON.stringify(viewData));
+        console.log("use effect");
     },[viewData]);
+
+    // useEffect(()=>{
+    //     localStorage.setItem("data", JSON.stringify(viewData))
+    //     // console.log("data");
+    // },[viewData]);
 
     return (
         <>
