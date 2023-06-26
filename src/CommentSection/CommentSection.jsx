@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from 'react'
 
-// const getData = () =>{
-//     let data1 = JSON.parse(localStorage.getItem("data"));
+const getData = () =>{
+    let data1 = JSON.parse(localStorage.getItem("data"));
 
-//     if(data1 != null){
-//         return data1;
-//     }
-//     return [];
-// //    console.log(data);
-// }
-
-const sessionData = () =>{
-    let data1 = (sessionStorage.getItem("data"));
-    // console.log("session get", data1);
-    if(data1 !=  null){
-        return JSON.parse(data1);
+    if(data1 != null){
+        return data1;
     }
-    return[];
+    return [];
+//    console.log(data);
 }
 
+// const sessionData = () =>{
+//     let data1 = (sessionStorage.getItem("data"));
+//     // console.log("session get", data1);
+//     if(data1 !=  null){
+//         return JSON.parse(data1);
+//     }
+//     return[];
+// }
 function CommentSection() {
 
     const [inputList, setinputList] = useState({
@@ -29,7 +28,7 @@ function CommentSection() {
         phn: ''
     });
 
-    const [viewData, setviewData] = useState(sessionData());
+    const [viewData, setviewData] = useState(getData());
     // console.log("data",data);
 
 
@@ -44,7 +43,10 @@ function CommentSection() {
         e.preventDefault();
         // console.log("click");
 
-        let name = inputList
+        let uid = Math.floor(Math.random () * 100)
+
+        let name = ({uid, ...inputList})
+        console.log("uid",name);
         // console.log("name",name);
         setviewData([...viewData, name]);
 
@@ -58,15 +60,34 @@ function CommentSection() {
     }
 
     
-    useEffect(()=>{
-        sessionStorage.setItem("data",JSON.stringify(viewData));
-        console.log("use effect");
-    },[viewData]);
-
     // useEffect(()=>{
-    //     localStorage.setItem("data", JSON.stringify(viewData))
-    //     // console.log("data");
+    //     sessionStorage.setItem("data",JSON.stringify(viewData));
+    //     console.log("use effect");
     // },[viewData]);
+
+    const handleUpdate = (id) => {
+        // console.log("id >>>",id);
+        let myData = getData();
+        // console.log("myData",myData);
+        let newData = myData.filter((d) =>{
+            // console.log("d",d);
+            return d.uid == id;
+        })
+        console.log("newData >>>",newData);
+        setinputList(newData[0]);
+
+
+        // for(let i in myData){
+        //     if(myData[i].id == id){
+        //         setinputList(myData[i]);
+        //     }
+        // }
+    }
+
+    useEffect(()=>{
+        localStorage.setItem("data", JSON.stringify(viewData))
+        // console.log("data");
+    },[viewData]);
 
     return (
         <>
@@ -92,9 +113,9 @@ function CommentSection() {
                         <label className="form-label">Mobile No.</label>
                         <input type="text" className="form-control" name='phn' value={inputList.phn} onChange={handlechange} />
                     </div>
-                    <div className="comment">
-                        <label className="form-label">Comments</label>
-                        <textarea className="form-control" placeholder="Comment here" name='cname' value={inputList.cname} onChange={handlechange}></textarea>
+                    <div className="comment col-md-6">
+                        <label className="form-label">course</label>
+                        <textarea className="form-control" name='cname' value={inputList.cname} onChange={handlechange}></textarea>
                     </div>
                     <div className="col-12">
                         <button type="submit" className="btn btn-primary">Submit</button>
@@ -135,6 +156,11 @@ function CommentSection() {
                                                         d.cname
                                                     }
                                                 </div>
+                                            </div>
+                                            <div>
+                                                <button className='btn btn-danger' onClick={(e) => handleUpdate(d.uid)}>
+                                                    Update
+                                                </button>
                                             </div>
                                         </div>
                                     </>
