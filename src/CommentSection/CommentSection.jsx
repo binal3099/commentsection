@@ -10,6 +10,16 @@ const getData = () =>{
 //    console.log(data);
 }
 
+const getDelete = () =>{
+    let data1 = JSON.parse(localStorage.getItem("useDelete"));
+
+    if(data1 != null){
+        return data1;
+    }
+    console.log("data1");
+    return [];
+}
+
 // const sessionData = () =>{
 //     let data1 = (sessionStorage.getItem("data"));
 //     // console.log("session get", data1);
@@ -29,6 +39,9 @@ function CommentSection() {
     });
 
     const [viewData, setviewData] = useState(getData());
+    const [updateData, setUpdateData] = useState(false);
+    const [upIndex,setupIndex] =useState(null);
+    const [userDelete, setuserDelete] = useState(getDelete());
     // console.log("data",data);
 
 
@@ -43,12 +56,25 @@ function CommentSection() {
         e.preventDefault();
         // console.log("click");
 
-        let uid = Math.floor(Math.random () * 100)
+        if(updateData){
+            console.log("updateData >>>",upIndex);
+            let newupdate = [...viewData];
+            newupdate[upIndex] = inputList;
+            
+            setUpdateData(false)
 
-        let name = ({uid, ...inputList})
-        console.log("uid",name);
-        // console.log("name",name);
-        setviewData([...viewData, name]);
+            setviewData(newupdate);
+            console.log("newupdate >>",newupdate);
+        }
+        else{
+            let uid = Math.floor(Math.random () * 100)
+
+            let name = ({id : uid, ...inputList})
+            console.log("uid",name);
+            // console.log("name",name);
+            // console.log("viewData",viewData);
+            setviewData([...viewData, name]);
+        }
 
         setinputList({
             fname: '',
@@ -59,35 +85,59 @@ function CommentSection() {
         });
     }
 
-    
-    // useEffect(()=>{
-    //     sessionStorage.setItem("data",JSON.stringify(viewData));
-    //     console.log("use effect");
-    // },[viewData]);
-
-    const handleUpdate = (id) => {
+    const handleUpdate = (id,index) => {
         // console.log("id >>>",id);
         let myData = getData();
         // console.log("myData",myData);
         let newData = myData.filter((d) =>{
             // console.log("d",d);
-            return d.uid == id;
-        })
+            return d.id == id;
+        });
         console.log("newData >>>",newData);
+
         setinputList(newData[0]);
-
-
-        // for(let i in myData){
-        //     if(myData[i].id == id){
-        //         setinputList(myData[i]);
-        //     }
-        // }
+        setUpdateData(true);
+        setupIndex(index);
     }
 
+    const handleDelete = (id) => {
+        let myData = getData();
+        // console.log("mayData", myData);
+
+        // let newDelete = myData.filter((d)=>{
+        //     return d.id != id;
+        // });
+        // console.log("newDelete >>>",newDelete);
+        // setviewData(newDelete);
+
+        let newDelete = myData.filter((d)=>{
+            if(d.id == id){
+                setuserDelete([...userDelete, d])
+            }
+            else{
+                return d.id != id;
+            }   
+        });
+        console.log("newDelete >>>",newDelete);
+        setviewData(newDelete);
+    }
+
+    // localStorage main data
     useEffect(()=>{
         localStorage.setItem("data", JSON.stringify(viewData))
         // console.log("data");
     },[viewData]);
+
+        // useEffect(()=>{
+    //     sessionStorage.setItem("data",JSON.stringify(viewData));
+    //     console.log("use effect");
+    // },[viewData]);
+
+    // delete data useeffect
+    useEffect (()=>{
+        localStorage.setItem("useDelete",JSON.stringify(userDelete))
+        console.log("use effect 2");
+    },[userDelete])
 
     return (
         <>
@@ -127,7 +177,7 @@ function CommentSection() {
                 <div className="row">
                     {
                         viewData.length >= 1 ?
-                            viewData.map((d) => {
+                            viewData.map((d,index) => {
                                 // console.log(val);
                                 return (
                                     <>
@@ -158,9 +208,13 @@ function CommentSection() {
                                                 </div>
                                             </div>
                                             <div>
-                                                <button className='btn btn-danger' onClick={(e) => handleUpdate(d.uid)}>
+                                                <button className='btn btn-primary' onClick={(e) => handleUpdate(d.id,index)}>
                                                     Update
                                                 </button>
+                                                <button className='btn btn-danger' onClick={(e) => handleDelete(d.id)}>
+                                                    Delete
+                                                </button>
+                                                
                                             </div>
                                         </div>
                                     </>
