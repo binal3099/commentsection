@@ -32,3 +32,9 @@ h1{
     background-color: rgb(23, 15, 75);
     color: white;
 }
+.btn{
+    margin:  0px 10px;
+}
+.btn1{
+    padding-bottom: 10px;
+}
